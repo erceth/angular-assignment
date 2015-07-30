@@ -1,0 +1,16 @@
+Home /
+  list of posts (post title, post body, username of poster, liked status(star?) )
+    keep track of liked posts
+  click on post title takes to post detail page
+  click on username takes to user detail page
+
+Post detail page
+  show comments associated with post
+  click on user takes to user detail page
+
+User /user/123
+  user details are displayed
+  display list of posts by the user
+  able to edit username
+  
+ 

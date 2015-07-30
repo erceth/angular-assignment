@@ -1,0 +1,15 @@
+{
+  "name": "petrocloud",
+  "version": "0.0.0",
+  "authors": [
+    "erceth <erceth@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
