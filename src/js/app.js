@@ -18,12 +18,11 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
                 templateUrl: "templates/userDetail.html",
                 controller: "userDetailCtrl"
             });
-r
+
    //          $locationProvider.html5Mode({
 			//     enabled: true,
 			//     requireBase: false
 			// });
     })
     .controller("AppCtrl", function($scope) {
-        $scope.test = "eric";
     });

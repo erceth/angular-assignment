@@ -1,1 +1,6 @@
-{{home}}
+<div class="post" ng-repeat="p in home.posts">
+	<h3>{{p.title}}</h3>
+	<p>{{p.body}}</p>
+	<p>By {{getUserById(p.userId)}}</p>
+
+</div>
