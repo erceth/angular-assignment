@@ -1,5 +1,5 @@
 angular.module("app", ["ui.router", "controller.home", "controller.userDetail", "controller.postDetail"])
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider.otherwise("/home");
 
         $stateProvider
@@ -17,7 +17,12 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
                 url: "/user/:userID",
                 templateUrl: "templates/userDetail.html",
                 controller: "userDetailCtrl"
-            })
+            });
+r
+   //          $locationProvider.html5Mode({
+			//     enabled: true,
+			//     requireBase: false
+			// });
     })
     .controller("AppCtrl", function($scope) {
         $scope.test = "eric";
