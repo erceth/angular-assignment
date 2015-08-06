@@ -14,8 +14,14 @@ angular.module("controller.home", ["service.user", "service.post"])
 	});
 
 	$scope.likePost = function(post) {
+		console.log(post);
 		post.liked = true;
-		//TODO: pass liked status to posts service
+		Post.likedPost(post.id);
+	};
+
+	$scope.unlikePost = function(post) {
+		post.liked = false;
+		Post.unlikedPost(post.id);
 	};
 
 	// var user = {

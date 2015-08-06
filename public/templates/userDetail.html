@@ -3,7 +3,7 @@
 		<div>
 			<span class="btn btn-default" ng-click="userDetail.edit=false;">Display</span>
 			<span class="btn btn-default" ng-click="userDetail.edit=true;">Edit</span>
-			{{userDetail.edit}}
+			<span class="btn btn-default" ng-show="userDetail.edit" ng-click="saveUser()">Save</span>
 		</div>
 		<div>{{userDetail.user.id}}</div>
 		<input class="detail" ng-model="userDetail.user.name" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">

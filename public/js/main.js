@@ -4,7 +4,7 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
 
         $stateProvider
             .state('home', {
-                url: "/home",
+                url: "/",
                 templateUrl: "templates/home.html",
                 controller: "homeCtrl"
             })
@@ -25,6 +25,10 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
 			// });
     })
     .controller("AppCtrl", function($scope) {
+    	$scope.app = {};
+    	$scope.$on("loading", function(event, data) {
+	        $scope.app.loading = data;
+	    });
     });
 
 angular.module("controller.home", ["service.user", "service.post"])
@@ -43,8 +47,14 @@ angular.module("controller.home", ["service.user", "service.post"])
 	});
 
 	$scope.likePost = function(post) {
+		console.log(post);
 		post.liked = true;
-		//TODO: pass liked status to posts service
+		Post.likedPost(post.id);
+	};
+
+	$scope.unlikePost = function(post) {
+		post.liked = false;
+		Post.unlikedPost(post.id);
 	};
 
 	// var user = {
@@ -84,15 +94,23 @@ angular.module("controller.userDetail", ["service.user", "service.post"])
 .controller("userDetailCtrl", function($scope, $stateParams, User, Post) {
 	$scope.userDetail = {};
 	User.getUsers(function(allUsers) {
-		$scope.userDetail.user = _.find(allUsers, function(u) {
+		$scope.userDetail.user = angular.copy(_.find(allUsers, function(u) {
 			return u.id === parseInt($stateParams.userId, 10);
-		});
+		}));
 	});
 	Post.getPosts(function(allPosts) {
 		$scope.userDetail.posts = allPosts.filter(function(p) {
 			return p.userId === parseInt($stateParams.userId, 10);
 		});
 	})
+
+	$scope.saveUser = function() {
+		$scope.$emit("loading", true);
+		User.saveUser($scope.userDetail.user, function() {
+			$scope.userDetail.edit = false;
+			$scope.$emit("loading", false);
+		});
+	};
 });
 
 angular.module("service.comment", ["service.url"])
@@ -145,6 +163,18 @@ angular.module("service.post", ["service.url"])
                 	callback(allPosts);
                 });
 			}
+		},
+		likedPost: function(postId) {
+			var post = _.find(allPosts, function(p) {
+				return p.id === postId;
+			});
+			post = true;
+		},
+		unlikedPost: function(postId) {
+			var post = _.find(allPosts, function(p) {
+				return p.id === postId;
+			});
+			post = false;
 		}
 	}
 });
@@ -172,7 +202,7 @@ angular.module("service.user", ["service.url"])
 				callback(allUsers);
 			} else {
 				$http({
-                    method: 'GET',
+                    method: "GET",
                     url: Url.getUrl() + "users",
                     headers: {
                         "Accept-Language": "en-US"
@@ -182,6 +212,21 @@ angular.module("service.user", ["service.url"])
                 	callback(allUsers);
                 });
 			}
+		},
+		saveUser: function(user, callback) {
+			var foundUser = _.find(allUsers, function(u) {
+				return u.id === user.id;
+			});
+			foundUser.name = user.name;
+			foundUser.username = user.username;
+			$http({
+				method: "PUT",
+				url: Url.getUrl() + "users/" + user.id,
+				data: user
+			}).then(function(response) {
+				console.log("Save User:", response);
+				callback();
+			});
 		}
 	}
 });

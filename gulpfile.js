@@ -39,10 +39,15 @@ gulp.task("html", function() {
 		.pipe(gulp.dest("public/templates"));
 });
 
+gulp.task("img", function() {
+	gulp.src(["src/img/**/*"])
+		.pipe(gulp.dest("public/img"));
+})
+
 
 
 //tasks to run when developing
-gulp.task("dev", ["less", "js", "html"]);
+gulp.task("dev", ["less", "js", "html", "img"]);
 
 gulp.task("watch", function () {
 	gulp.watch(["src/**/*"], ["dev"]);

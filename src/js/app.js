@@ -4,7 +4,7 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
 
         $stateProvider
             .state('home', {
-                url: "/home",
+                url: "/",
                 templateUrl: "templates/home.html",
                 controller: "homeCtrl"
             })
@@ -25,4 +25,8 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
 			// });
     })
     .controller("AppCtrl", function($scope) {
+    	$scope.app = {};
+    	$scope.$on("loading", function(event, data) {
+	        $scope.app.loading = data;
+	    });
     });

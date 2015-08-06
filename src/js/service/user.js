@@ -11,7 +11,7 @@ angular.module("service.user", ["service.url"])
 				callback(allUsers);
 			} else {
 				$http({
-                    method: 'GET',
+                    method: "GET",
                     url: Url.getUrl() + "users",
                     headers: {
                         "Accept-Language": "en-US"
@@ -21,6 +21,21 @@ angular.module("service.user", ["service.url"])
                 	callback(allUsers);
                 });
 			}
+		},
+		saveUser: function(user, callback) {
+			var foundUser = _.find(allUsers, function(u) {
+				return u.id === user.id;
+			});
+			foundUser.name = user.name;
+			foundUser.username = user.username;
+			$http({
+				method: "PUT",
+				url: Url.getUrl() + "users/" + user.id,
+				data: user
+			}).then(function(response) {
+				console.log("Save User:", response);
+				callback();
+			});
 		}
 	}
 });

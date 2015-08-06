@@ -21,6 +21,18 @@ angular.module("service.post", ["service.url"])
                 	callback(allPosts);
                 });
 			}
+		},
+		likedPost: function(postId) {
+			var post = _.find(allPosts, function(p) {
+				return p.id === postId;
+			});
+			post = true;
+		},
+		unlikedPost: function(postId) {
+			var post = _.find(allPosts, function(p) {
+				return p.id === postId;
+			});
+			post = false;
 		}
 	}
 });

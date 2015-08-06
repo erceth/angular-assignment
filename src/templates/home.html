@@ -1,6 +1,9 @@
 <div class="post" ng-repeat="p in home.posts">
-	<h3>{{p.title}}</h3>
+	<h3><span ui-sref="post({postId:p.id})">{{p.title}}</span></h3>
 	<p>{{p.body}}</p>
 	<span ui-sref="user({userId: p.userId})"><p>By {{p.user.username}}</p></span>
-	<p class="btn btn-default" ng-click="likePost(p)" ng-class="{like: p.liked}">Like</p>
+	<div>
+		<span class="btn btn-default" ng-hide="p.liked" ng-click="likePost(p)">Like</span>
+		<span class="btn btn-default" ng-show="p.liked" ng-click="unlikePost(p)">Unlike</span>
+	</div>
 </div>
