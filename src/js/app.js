@@ -9,12 +9,12 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
                 controller: "homeCtrl"
             })
             .state('post', {
-                url: "/post/:postID",
+                url: "/post/:postId",
                 templateUrl: "templates/postDetail.html",
                 controller: "postDetailCtrl"
             })
             .state('user', {
-                url: "/user/:userID",
+                url: "/user/:userId",
                 templateUrl: "templates/userDetail.html",
                 controller: "userDetailCtrl"
             });

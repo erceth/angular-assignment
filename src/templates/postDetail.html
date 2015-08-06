@@ -1,1 +1,20 @@
-{{home}}
+<div class="postDetail">
+	<div class="post">
+		<div>{{postDetail.post.userId}}</div>
+		<div>{{postDetail.post.id}}</div>
+		<div><h3>{{postDetail.post.title}}</h3></div>
+		<div>{{postDetail.post.body}}</div>
+		<div><span ui-sref="user({userId: postDetail.post.user.id})">{{postDetail.post.user.username}}</span></div>
+		<div><span ng-show="{{postDetail.post.liked}}">liked</span><span ng-hide="{{postDetail.post.liked}}">not liked</span></div>
+		<br><br>
+	</div>
+	<div class="comments">
+		<h2>Comments</h2>
+		<div ng-repeat="c in postDetail.comments">
+			<div>{{c.body}}</div>
+			<div>{{c.email}}</div>
+			<div>{{c.name}}</div>
+			<br>
+		</div>
+	</div>
+</div>

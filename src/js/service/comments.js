@@ -6,7 +6,7 @@ angular.module("service.comment", ["service.url"])
 		retrieves all comments from api
 		callback parameter is a function that getComments calls to return comments
 		*/
-		getCommentss: function(callback) {
+		getComments: function(callback) {
 			if (allComment) {
 				callback(allComment);
 			} else {

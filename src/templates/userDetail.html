@@ -1,1 +1,25 @@
-{{home}}
+<div class="userDetail">
+	<div class="user">
+		<div>
+			<span class="btn btn-default" ng-click="userDetail.edit=false;">Display</span>
+			<span class="btn btn-default" ng-click="userDetail.edit=true;">Edit</span>
+			{{userDetail.edit}}
+		</div>
+		<div>{{userDetail.user.id}}</div>
+		<input class="detail" ng-model="userDetail.user.name" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
+		<input class="detail" ng-model="userDetail.user.username" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
+		<div>{{userDetail.user.email}}</div>
+		<div>{{userDetail.user.address}}</div>
+		<div>{{userDetail.user.phone}}</div>
+		<div>{{userDetail.user.website}}</div>
+		<div>{{userDetail.user.company}}</div>
+		<br><br>
+		{{userDetail.user}}
+	</div>
+	<div class="posts">
+		{{p}}
+		<div ng-repeat="p in userDetail.posts"><span ui-sref="post({postId:p.id})">{{p.title}}</span></div>
+	</div>
+
+
+</div>
