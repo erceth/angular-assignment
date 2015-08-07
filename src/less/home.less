@@ -8,7 +8,41 @@
 		}
 		.user {
 			cursor: pointer;
-			color: #000;
+			color: #0072bc;
+			&:hover {
+				color: #66AAD7;
+			}
 		}
+		.like {
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+		.body {
+			@media (min-width: @screen-sm) {
+				margin-bottom: 20px;
+				margin-bottom: 60px;
+			}
+		}
+		@media (min-width: @screen-sm) {
+			height: 230px;
+		}
+		border-radius: 5px;
+		border: 1px solid;
+	}
+	.links {
+		@media (min-width: @screen-sm) {
+		    bottom: 0px;
+			position: absolute;	
+			height: 60px;
+		}
+		.glyphicon {
+			font-size: 20px;
+		    margin-left: 10px;
+		    position: relative;
+		    top: 6px;
+		}
+		width: 88%;
+		background: #fcfcef;
 	}
 }

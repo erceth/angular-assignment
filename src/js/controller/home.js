@@ -2,6 +2,7 @@ angular.module("controller.home", ["service.user", "service.post"])
 
 .controller("homeCtrl", function($scope, Post, User) {
 	$scope.home = {};
+	$scope.$emit("loading", true);
 	Post.getPosts(function(posts) {
 		User.getUsers(function(users) {
 			_.each(posts, function(p) {
@@ -9,7 +10,8 @@ angular.module("controller.home", ["service.user", "service.post"])
 					return u.id === p.userId;
 				});
 			});
-			$scope.home.posts = posts;			
+			$scope.home.posts = posts;
+			$scope.$emit("loading", false);
 		});
 	});
 
@@ -23,12 +25,4 @@ angular.module("controller.home", ["service.user", "service.post"])
 		Post.unlikedPost(post.id);
 	};
 
-	// var user = {
-	//     "userId": 1,
-	//     "id": 1,
-	//     "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-	//     "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-	//   };
-
-	//   $scope.getUserById(user);
 });

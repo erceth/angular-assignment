@@ -42,12 +42,17 @@ gulp.task("html", function() {
 gulp.task("img", function() {
 	gulp.src(["src/img/**/*"])
 		.pipe(gulp.dest("public/img"));
+});
+
+gulp.task("fonts", function() {
+	gulp.src(["bower_components/bootstrap/dist/fonts/**/*"])
+		.pipe(gulp.dest("public/fonts"));
 })
 
 
 
 //tasks to run when developing
-gulp.task("dev", ["less", "js", "html", "img"]);
+gulp.task("dev", ["less", "js", "html", "img", "fonts"]);
 
 gulp.task("watch", function () {
 	gulp.watch(["src/**/*"], ["dev"]);

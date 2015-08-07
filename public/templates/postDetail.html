@@ -1,20 +1,23 @@
 <div class="postDetail">
-	<div class="post">
-		<div>{{postDetail.post.userId}}</div>
-		<div>{{postDetail.post.id}}</div>
+	<br>
+	<div class="post col-xs-12">
+		<div class="pull-left">User ID: {{postDetail.post.userId}}</div>
+		<div class="pull-right">Post ID: {{postDetail.post.id}}</div>
+		<br>
 		<div><h3>{{postDetail.post.title}}</h3></div>
 		<div>{{postDetail.post.body}}</div>
-		<div><span ui-sref="user({userId: postDetail.post.user.id})">{{postDetail.post.user.username}}</span></div>
-		<div><span ng-show="{{postDetail.post.liked}}">liked</span><span ng-hide="{{postDetail.post.liked}}">not liked</span></div>
+		<div><span class="user" ui-sref="user({userId: postDetail.post.user.id})">By: {{postDetail.post.user.username}}</span></div>
+		<div><span ng-show="postDetail.post.liked">liked</span><span ng-hide="postDetail.post.liked">not liked</span><span ng-show="postDetail.post.liked" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></div>
 		<br><br>
 	</div>
 	<div class="comments">
-		<h2>Comments</h2>
-		<div ng-repeat="c in postDetail.comments">
-			<div>{{c.body}}</div>
-			<div>{{c.email}}</div>
-			<div>{{c.name}}</div>
-			<br>
+		<h4 class="col-xs-12">Comments</h4>
+		<div class="col-xs-12 comment" ng-repeat="c in postDetail.comments">
+			<div class="inner-comment">
+				<div>Name: {{c.name}}</div>
+				<div>{{c.body}}</div>
+				<div>Email: {{c.email}}</div>
+			</div>
 		</div>
 	</div>
 </div>

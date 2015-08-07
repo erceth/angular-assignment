@@ -35,6 +35,7 @@ angular.module("controller.home", ["service.user", "service.post"])
 
 .controller("homeCtrl", function($scope, Post, User) {
 	$scope.home = {};
+	$scope.$emit("loading", true);
 	Post.getPosts(function(posts) {
 		User.getUsers(function(users) {
 			_.each(posts, function(p) {
@@ -42,7 +43,8 @@ angular.module("controller.home", ["service.user", "service.post"])
 					return u.id === p.userId;
 				});
 			});
-			$scope.home.posts = posts;			
+			$scope.home.posts = posts;
+			$scope.$emit("loading", false);
 		});
 	});
 
@@ -56,20 +58,13 @@ angular.module("controller.home", ["service.user", "service.post"])
 		Post.unlikedPost(post.id);
 	};
 
-	// var user = {
-	//     "userId": 1,
-	//     "id": 1,
-	//     "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-	//     "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-	//   };
-
-	//   $scope.getUserById(user);
 });
 
 angular.module("controller.postDetail", ["service.post", "service.user", "service.comment"])
 
 .controller("postDetailCtrl", function($scope, $stateParams, Post, User, Comment) {
 	$scope.postDetail = {};
+	$scope.$emit("loading", true);
 	Post.getPosts(function(allPosts) {
 		$scope.postDetail.post = _.find(allPosts, function(p) {
 			return p.id === parseInt($stateParams.postId, 10);
@@ -79,35 +74,50 @@ angular.module("controller.postDetail", ["service.post", "service.user", "servic
 				return u.id === $scope.postDetail.post.userId;
 			});
 		});
+		$scope.$emit("loading", false);
 	});
 	Comment.getComments(function(allComments) {
 		$scope.postDetail.comments = allComments.filter(function(c) {
 			return c.postId === parseInt($stateParams.postId, 10);
 		});
 	});
-	console.log($stateParams);
 });
 
 angular.module("controller.userDetail", ["service.user", "service.post"])
 
 .controller("userDetailCtrl", function($scope, $stateParams, User, Post) {
 	$scope.userDetail = {};
+	$scope.$emit("loading", true);
+	var userCallDone = false;
 	User.getUsers(function(allUsers) {
 		$scope.userDetail.user = angular.copy(_.find(allUsers, function(u) {
 			return u.id === parseInt($stateParams.userId, 10);
 		}));
+		userCallDone = true;
+		stopLoadingScreen();
 	});
+
+	var postCallDone = false;
 	Post.getPosts(function(allPosts) {
 		$scope.userDetail.posts = allPosts.filter(function(p) {
 			return p.userId === parseInt($stateParams.userId, 10);
 		});
+		postCallDone = true;
+		stopLoadingScreen();
 	})
+
+	function stopLoadingScreen() {
+		if (userCallDone && postCallDone) {
+			$scope.$emit("loading", false);
+		}
+	}
 
 	$scope.saveUser = function() {
 		$scope.$emit("loading", true);
 		User.saveUser($scope.userDetail.user, function() {
 			$scope.userDetail.edit = false;
 			$scope.$emit("loading", false);
+			$scope.userDetail.checkConsoleMessage = true;
 		});
 	};
 });

@@ -1,11 +1,14 @@
 <div class="userDetail">
+	<br>
 	<div class="user">
 		<div class="col-xs-12">
 			<span class="btn btn-default" ng-show="userDetail.edit" ng-click="userDetail.edit=false;">Cancel</span>
 			<span class="btn btn-default" ng-hide="userDetail.edit" ng-click="userDetail.edit=true;">Edit</span>
 			<span class="btn btn-default" ng-show="userDetail.edit" ng-click="saveUser()">Save</span>
+			<div class="pull-right">ID: {{userDetail.user.id}}</div><br>
+			<span class="check-console" ng-show="userDetail.checkConsoleMessage">Check console to see server reply</span>
+			<br>
 		</div>
-		<div class="col-xs-12">Id: {{userDetail.user.id}}</div><br>
 		<div class="col-xs-12">
 			<input class="detail" ng-model="userDetail.user.name" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
 			<input class="detail" ng-model="userDetail.user.username" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
