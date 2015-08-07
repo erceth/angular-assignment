@@ -20,8 +20,8 @@ gulp.task("less", function() {
 gulp.task("js", function() {
 	gulp.src("src/js/**/*")
 		.pipe(concat("main.js"))
-		// .pipe(ngAnnotate())
-		// .pipe(uglify())
+		.pipe(ngAnnotate())
+		.pipe(uglify())
 		.pipe(gulp.dest("public/js/"));
 
 	gulp.src(["bower_components/jquery/dist/jquery.min.js", "bower_components/bootstrap/dist/js/bootstrap.min.js", "bower_components/angular/angular.min.js", "bower_components/ui-router/release/angular-ui-router.min.js", "bower_components/underscore/underscore-min.js"])

@@ -19,10 +19,10 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
                 controller: "userDetailCtrl"
             });
 
-   //          $locationProvider.html5Mode({
-			//     enabled: true,
-			//     requireBase: false
-			// });
+            $locationProvider.html5Mode({
+			    enabled: true,
+			    requireBase: false
+			});
     })
     .controller("AppCtrl", function($scope) {
     	$scope.app = {};
