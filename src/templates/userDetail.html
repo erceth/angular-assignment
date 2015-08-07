@@ -1,24 +1,42 @@
 <div class="userDetail">
 	<div class="user">
-		<div>
-			<span class="btn btn-default" ng-click="userDetail.edit=false;">Display</span>
-			<span class="btn btn-default" ng-click="userDetail.edit=true;">Edit</span>
+		<div class="col-xs-12">
+			<span class="btn btn-default" ng-show="userDetail.edit" ng-click="userDetail.edit=false;">Cancel</span>
+			<span class="btn btn-default" ng-hide="userDetail.edit" ng-click="userDetail.edit=true;">Edit</span>
 			<span class="btn btn-default" ng-show="userDetail.edit" ng-click="saveUser()">Save</span>
 		</div>
-		<div>{{userDetail.user.id}}</div>
-		<input class="detail" ng-model="userDetail.user.name" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
-		<input class="detail" ng-model="userDetail.user.username" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
-		<div>{{userDetail.user.email}}</div>
-		<div>{{userDetail.user.address}}</div>
-		<div>{{userDetail.user.phone}}</div>
-		<div>{{userDetail.user.website}}</div>
-		<div>{{userDetail.user.company}}</div>
-		<br><br>
-		{{userDetail.user}}
+		<div class="col-xs-12">Id: {{userDetail.user.id}}</div><br>
+		<div class="col-xs-12">
+			<input class="detail" ng-model="userDetail.user.name" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
+			<input class="detail" ng-model="userDetail.user.username" ng-disabled="!userDetail.edit" ng-class="{disabled: !userDetail.edit}">
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 user-section">
+			<h3>Address:</h3>
+			<div>{{userDetail.user.address.street}}</div>
+			<div>{{userDetail.user.address.suite}}</div>
+			<div>{{userDetail.user.address.zipcode}}</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 user-section">
+			<h3>Location:</h3>
+			<div>{{userDetail.user.address.geo.lat}}</div>
+			<div>{{userDetail.user.address.geo.lng}}</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 user-section">
+			<h3>Contact:</h3>
+			<div>Email: {{userDetail.user.email}}</div>
+			<div>Phone: {{userDetail.user.phone}}</div>
+			<div>Website: {{userDetail.user.website}}</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 user-section">
+			<h3>Company:</h3>
+			<div>{{userDetail.user.company.name}}</div>
+			<div>{{userDetail.user.company.catchPhrase}}</div>
+			<div>{{userDetail.user.company.bs}}</div>
+		</div>
 	</div>
-	<div class="posts">
-		{{p}}
-		<div ng-repeat="p in userDetail.posts"><span ui-sref="post({postId:p.id})">{{p.title}}</span></div>
+	<div class="posts col-xs-12">
+		<h3>Posts</h3>
+		<div class="post" ng-repeat="p in userDetail.posts"><span ui-sref="post({postId:p.id})">{{p.title}}</span></div>
 	</div>
 
 

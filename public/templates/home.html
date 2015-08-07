@@ -1,9 +1,11 @@
-<div class="post" ng-repeat="p in home.posts">
-	<h3><span ui-sref="post({postId:p.id})">{{p.title}}</span></h3>
-	<p>{{p.body}}</p>
-	<span ui-sref="user({userId: p.userId})"><p>By {{p.user.username}}</p></span>
-	<div>
-		<span class="btn btn-default" ng-hide="p.liked" ng-click="likePost(p)">Like</span>
-		<span class="btn btn-default" ng-show="p.liked" ng-click="unlikePost(p)">Unlike</span>
+<div class="home">
+	<div class="post col-xs-12 col-sm-6 col-md-4 col-ld-3" ng-repeat="p in home.posts">
+		<h3 class="title"><span ui-sref="post({postId:p.id})">{{p.title}}</span></h3>
+		<p>{{p.body}}</p>
+		<a class="user" ui-sref="user({userId: p.userId})">By {{p.user.username}}</a>
+		<div>
+			<span class="btn btn-default" ng-hide="p.liked" ng-click="likePost(p)">Like</span>
+			<span class="btn btn-default" ng-show="p.liked" ng-click="unlikePost(p)">Unlike</span>
+		</div>
 	</div>
 </div>

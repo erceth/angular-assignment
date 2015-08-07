@@ -47,7 +47,6 @@ angular.module("controller.home", ["service.user", "service.post"])
 	});
 
 	$scope.likePost = function(post) {
-		console.log(post);
 		post.liked = true;
 		Post.likedPost(post.id);
 	};
