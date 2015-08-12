@@ -1,4 +1,4 @@
-angular.module("service.user", ["service.url"])
+angular.module("app")
 .service("User", function($http, Url) {
 	var allUsers = null;
 	return {

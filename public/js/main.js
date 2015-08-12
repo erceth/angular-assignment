@@ -1,1 +1,241 @@
-angular.module("app",["ui.router","controller.home","controller.userDetail","controller.postDetail"]).config(["$stateProvider","$urlRouterProvider","$locationProvider",function(e,t,r){t.otherwise("/"),e.state("home",{url:"/",templateUrl:"templates/home.html",controller:"homeCtrl"}).state("post",{url:"/post/:postId",templateUrl:"templates/postDetail.html",controller:"postDetailCtrl"}).state("user",{url:"/user/:userId",templateUrl:"templates/userDetail.html",controller:"userDetailCtrl"})}]).controller("AppCtrl",["$scope",function(e){e.app={},e.$on("loading",function(t,r){e.app.loading=r})}]),angular.module("controller.home",["service.user","service.post"]).controller("homeCtrl",["$scope","Post","User",function(e,t,r){e.home={},e.$emit("loading",!0),t.getPosts(function(t){r.getUsers(function(r){_.each(t,function(e){e.user=_.find(r,function(t){return t.id===e.userId})}),e.home.posts=t,e.$emit("loading",!1)})}),e.likePost=function(e){e.liked=!0,t.likedPost(e.id)},e.unlikePost=function(e){e.liked=!1,t.unlikedPost(e.id)}}]),angular.module("controller.postDetail",["service.post","service.user","service.comment"]).controller("postDetailCtrl",["$scope","$stateParams","Post","User","Comment",function(e,t,r,n,o){e.postDetail={},e.$emit("loading",!0),r.getPosts(function(r){e.postDetail.post=_.find(r,function(e){return e.id===parseInt(t.postId,10)}),n.getUsers(function(t){e.postDetail.post.user=_.find(t,function(t){return t.id===e.postDetail.post.userId})}),e.$emit("loading",!1)}),o.getComments(function(r){e.postDetail.comments=r.filter(function(e){return e.postId===parseInt(t.postId,10)})})}]),angular.module("controller.userDetail",["service.user","service.post"]).controller("userDetailCtrl",["$scope","$stateParams","User","Post",function(e,t,r,n){function o(){s&&i&&e.$emit("loading",!1)}e.userDetail={},e.$emit("loading",!0);var s=!1;r.getUsers(function(r){e.userDetail.user=angular.copy(_.find(r,function(e){return e.id===parseInt(t.userId,10)})),s=!0,o()});var i=!1;n.getPosts(function(r){e.userDetail.posts=r.filter(function(e){return e.userId===parseInt(t.userId,10)}),i=!0,o()}),e.saveUser=function(){e.$emit("loading",!0),r.saveUser(e.userDetail.user,function(){e.userDetail.edit=!1,e.$emit("loading",!1),e.userDetail.checkConsoleMessage=!0})}}]),angular.module("service.comment",["service.url"]).service("Comment",["$http","Url",function(e,t){var r=null;return{getComments:function(n){r?n(r):e({method:"GET",url:t.getUrl()+"comments",headers:{"Accept-Language":"en-US"}}).then(function(e){r=e.data,n(r)})}}}]),angular.module("service.post",["service.url"]).service("Post",["$http","Url",function(e,t){var r=null;return{getPosts:function(n){r?n(r):e({method:"GET",url:t.getUrl()+"posts",headers:{"Accept-Language":"en-US"}}).then(function(e){r=e.data,n(r)})},likedPost:function(e){var t=_.find(r,function(t){return t.id===e});t=!0},unlikedPost:function(e){var t=_.find(r,function(t){return t.id===e});t=!1}}}]),angular.module("service.url",[]).service("Url",function(){var e="http://jsonplaceholder.typicode.com/";return{getUrl:function(t){return e}}}),angular.module("service.user",["service.url"]).service("User",["$http","Url",function(e,t){var r=null;return{getUsers:function(n){r?n(r):e({method:"GET",url:t.getUrl()+"users",headers:{"Accept-Language":"en-US"}}).then(function(e){r=e.data,n(r)})},saveUser:function(n,o){var s=_.find(r,function(e){return e.id===n.id});s.name=n.name,s.username=n.username,e({method:"PUT",url:t.getUrl()+"users/"+n.id,data:n}).then(function(e){console.log("Save User:",e),o()})}}}]);
+angular.module("app", ["ui.router"])
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+        $urlRouterProvider.otherwise("/");
+
+        $stateProvider
+            .state('home', {
+                url: "/",
+                templateUrl: "templates/home.html",
+                controller: "homeCtrl"
+            })
+            .state('post', {
+                url: "/post/:postId",
+                templateUrl: "templates/postDetail.html",
+                controller: "postDetailCtrl"
+            })
+            .state('user', {
+                url: "/user/:userId",
+                templateUrl: "templates/userDetail.html",
+                controller: "userDetailCtrl"
+            });
+
+   //          $locationProvider.html5Mode({
+			//     enabled: true,
+			//     requireBase: false
+			// });
+    })
+    .controller("AppCtrl", function AppCtrl ($scope) {
+    	$scope.app = {};
+    	$scope.$on("loading", function(event, data) {
+	        $scope.app.loading = data;
+	    });
+    });
+
+angular.module("app")
+
+.controller("homeCtrl", function($scope, Post, User) {
+	$scope.home = {};
+	$scope.$emit("loading", true);
+	Post.getPosts(function(posts) {
+		User.getUsers(function(users) {
+			_.each(posts, function(p) {
+				p.user = _.find(users, function(u) {
+					return u.id === p.userId;
+				});
+			});
+			$scope.home.posts = posts;
+			$scope.$emit("loading", false);
+		});
+	});
+
+	$scope.likePost = function(post) {
+		post.liked = true;
+		Post.likedPost(post.id);
+	};
+
+	$scope.unlikePost = function(post) {
+		post.liked = false;
+		Post.unlikedPost(post.id);
+	};
+
+});
+
+angular.module("app")
+
+.controller("postDetailCtrl", function($scope, $stateParams, Post, User, Comment) {
+	$scope.postDetail = {};
+	$scope.$emit("loading", true);
+	Post.getPosts(function(allPosts) {
+		$scope.postDetail.post = _.find(allPosts, function(p) {
+			return p.id === parseInt($stateParams.postId, 10);
+		});
+		User.getUsers(function(allUsers) {
+			$scope.postDetail.post.user = _.find(allUsers, function(u) {
+				return u.id === $scope.postDetail.post.userId;
+			});
+		});
+		$scope.$emit("loading", false);
+	});
+	Comment.getComments(function(allComments) {
+		$scope.postDetail.comments = allComments.filter(function(c) {
+			return c.postId === parseInt($stateParams.postId, 10);
+		});
+	});
+});
+
+angular.module("app")
+
+.controller("userDetailCtrl", function($scope, $stateParams, User, Post) {
+	$scope.userDetail = {};
+	$scope.$emit("loading", true);
+	var userCallDone = false;
+	User.getUsers(function(allUsers) {
+		$scope.userDetail.user = angular.copy(_.find(allUsers, function(u) {
+			return u.id === parseInt($stateParams.userId, 10);
+		}));
+		userCallDone = true;
+		stopLoadingScreen();
+	});
+
+	var postCallDone = false;
+	Post.getPosts(function(allPosts) {
+		$scope.userDetail.posts = allPosts.filter(function(p) {
+			return p.userId === parseInt($stateParams.userId, 10);
+		});
+		postCallDone = true;
+		stopLoadingScreen();
+	})
+
+	function stopLoadingScreen() {
+		if (userCallDone && postCallDone) {
+			$scope.$emit("loading", false);
+		}
+	}
+
+	$scope.saveUser = function() {
+		$scope.$emit("loading", true);
+		User.saveUser($scope.userDetail.user, function() {
+			$scope.userDetail.edit = false;
+			$scope.$emit("loading", false);
+			$scope.userDetail.checkConsoleMessage = true;
+		});
+	};
+});
+
+angular.module("app")
+.service("Comment", function($http, Url) {
+	var allComment = null;
+	return {
+		/*
+		retrieves all comments from api
+		callback parameter is a function that getComments calls to return comments
+		*/
+		getComments: function(callback) {
+			if (allComment) {
+				callback(allComment);
+			} else {
+				$http({
+                    method: 'GET',
+                    url: Url.getUrl() + "comments",
+                    headers: {
+                        "Accept-Language": "en-US"
+                    }
+                }).then(function(response) {
+                	allComment = response.data;
+                	callback(allComment);
+                });
+			}
+		}
+	}
+});
+
+angular.module("app")
+.service("Post", function($http, Url) {
+	var allPosts = null;
+	return {
+		/*
+		retrieves all posts from api
+		callback parameter is a function that getPosts calls to return posts
+		*/
+		getPosts: function(callback) {
+			if (allPosts) {
+				callback(allPosts);
+			} else {
+				$http({
+                    method: 'GET',
+                    url: Url.getUrl() + "posts",
+                    headers: {
+                        "Accept-Language": "en-US"
+                    }
+                }).then(function(response) {
+                	allPosts = response.data;
+                	callback(allPosts);
+                });
+			}
+		},
+		likedPost: function(postId) {
+			var post = _.find(allPosts, function(p) {
+				return p.id === postId;
+			});
+			post.liked = true;
+		},
+		unlikedPost: function(postId) {
+			var post = _.find(allPosts, function(p) {
+				return p.id === postId;
+			});
+			post.liked = false;
+		}
+	}
+});
+
+angular.module("app")
+.service("Url", function() {
+	var url = "http://jsonplaceholder.typicode.com/";
+	return {
+		getUrl: function(callback) {
+			return url;
+		}
+	};
+});
+
+angular.module("app")
+.service("User", function($http, Url) {
+	var allUsers = null;
+	return {
+		/*
+		retrieves all users from api
+		callback parameter is a function that getUsers calls to return users
+		*/
+		getUsers: function(callback) {
+			if (allUsers) {
+				callback(allUsers);
+			} else {
+				$http({
+                    method: "GET",
+                    url: Url.getUrl() + "users",
+                    headers: {
+                        "Accept-Language": "en-US"
+                    }
+                }).then(function(response) {
+                	allUsers = response.data;
+                	callback(allUsers);
+                });
+			}
+		},
+		saveUser: function(user, callback) {
+			var foundUser = _.find(allUsers, function(u) {
+				return u.id === user.id;
+			});
+			foundUser.name = user.name;
+			foundUser.username = user.username;
+			$http({
+				method: "PUT",
+				url: Url.getUrl() + "users/" + user.id,
+				data: user
+			}).then(function(response) {
+				console.log("Save User:", response);
+				callback();
+			});
+		}
+	}
+});

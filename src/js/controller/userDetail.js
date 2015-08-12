@@ -1,4 +1,4 @@
-angular.module("controller.userDetail", ["service.user", "service.post"])
+angular.module("app")
 
 .controller("userDetailCtrl", function($scope, $stateParams, User, Post) {
 	$scope.userDetail = {};

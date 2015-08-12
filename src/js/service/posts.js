@@ -1,4 +1,4 @@
-angular.module("service.post", ["service.url"])
+angular.module("app")
 .service("Post", function($http, Url) {
 	var allPosts = null;
 	return {
@@ -26,13 +26,13 @@ angular.module("service.post", ["service.url"])
 			var post = _.find(allPosts, function(p) {
 				return p.id === postId;
 			});
-			post = true;
+			post.liked = true;
 		},
 		unlikedPost: function(postId) {
 			var post = _.find(allPosts, function(p) {
 				return p.id === postId;
 			});
-			post = false;
+			post.liked = false;
 		}
 	}
 });

@@ -1,4 +1,4 @@
-angular.module("app", ["ui.router", "controller.home", "controller.userDetail", "controller.postDetail"])
+angular.module("app", ["ui.router"])
     .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider.otherwise("/");
 
@@ -24,7 +24,7 @@ angular.module("app", ["ui.router", "controller.home", "controller.userDetail", 
 			//     requireBase: false
 			// });
     })
-    .controller("AppCtrl", function($scope) {
+    .controller("AppCtrl", function AppCtrl ($scope) {
     	$scope.app = {};
     	$scope.$on("loading", function(event, data) {
 	        $scope.app.loading = data;

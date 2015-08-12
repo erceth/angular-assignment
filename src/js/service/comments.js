@@ -1,4 +1,4 @@
-angular.module("service.comment", ["service.url"])
+angular.module("app")
 .service("Comment", function($http, Url) {
 	var allComment = null;
 	return {

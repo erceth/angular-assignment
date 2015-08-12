@@ -1,4 +1,4 @@
-angular.module("controller.home", ["service.user", "service.post"])
+angular.module("app")
 
 .controller("homeCtrl", function($scope, Post, User) {
 	$scope.home = {};

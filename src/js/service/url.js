@@ -1,4 +1,4 @@
-angular.module("service.url", [])
+angular.module("app")
 .service("Url", function() {
 	var url = "http://jsonplaceholder.typicode.com/";
 	return {
